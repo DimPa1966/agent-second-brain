@@ -1,58 +1,44 @@
+```markdown
 # Entry Classification
-
-<!--
-╔══════════════════════════════════════════════════════════════════╗
-║  КАК НАСТРОИТЬ ЭТОТ ФАЙЛ                                         ║
-╠══════════════════════════════════════════════════════════════════╣
-║  1. Замените [Your Client Names] на имена ваших клиентов        ║
-║  2. Замените [Your Company] на название вашей компании          ║
-║  3. Замените [@your_channel] на ваш Telegram-канал              ║
-║  4. Добавьте свои домены работы, если они отличаются            ║
-║  5. Удалите этот комментарий после настройки                    ║
-╚══════════════════════════════════════════════════════════════════╝
--->
 
 ## Work Domains → Categories
 
 Based on user's work context (see [ABOUT.md](ABOUT.md)):
 
-### Client Work
-Брифы, стратегии, креатив, кампании, KPI, предложения
+### Стартап — Продукт
+Разметка данных, CVAT, агенты, MVP, пилоты, клиенты
 
-<!-- Добавьте имена ваших клиентов через запятую -->
-**Keywords:** [Your Client Names], клиент, бриф, презентация, дедлайн, KPI
+**Keywords:** разметка, CVAT, агент, MVP, пилот, клиент, метрики, качество, скорость, аннотация
 
-**→ Category:** task (p1-p2) → Todoist
+**→ Category:** task (p1-p2) → Singularity App
 
-### AI & Tech
-Инструменты, модели, промпты, пайплайны, агенты
+### Стартап — Бизнес
+Бизнес-модель, CustDev, монетизация, unit-экономика, фондирование
 
-**Keywords:** GPT, Claude, модель, агент, API, пайплайн, автоматизация, интеграция
+**Keywords:** бизнес-модель, монетизация, CustDev, интервью, ICP, unit-экономика, pricing, выручка, burn rate
 
-**→ Category:** learning или project → thoughts/
+**→ Category:** task (p1-p2) или idea → thoughts/
 
-### Product
-Идеи, гипотезы, MVP, юнит-экономика
+### AI & Tech — Обучение
+Инструменты, модели, фреймворки, навыки
 
-**Keywords:** продукт, SaaS, MVP, гипотеза, монетизация, юнит-экономика, стартап
+**Keywords:** OpenClaw, Claude Code, ML, LLM, API, вайб-кодинг, продуктовый дизайн, курс, туториал
 
-**→ Category:** idea или project → thoughts/
+**→ Category:** learning → thoughts/learnings/
 
-### Company Ops
-Команда, процессы, автоматизация, найм, управление, финансы
+### AI & Tech — R&D
+Эксперименты, прототипы, технические гипотезы
 
-<!-- Замените [Your Company] на название вашей компании/проекта -->
-**Keywords:** команда, найм, процесс, HR, финансы, [Your Company]
+**Keywords:** прототип, proof-of-concept, эксперимент, архитектура, мультиагент, pipeline, интеграция, тест
 
-**→ Category:** task или project (depends on urgency)
+**→ Category:** project → thoughts/projects/
 
-### Content
-Посты, идеи, тезисы для Telegram и LinkedIn
+### Личное
+Здоровье, семья, чтение, хобби
 
-<!-- Замените [@your_channel] на ваш Telegram-канал или удалите если не нужно -->
-**Keywords:** пост, [@your_channel], LinkedIn, контент, тезис, статья
+**Keywords:** тренировка, чекап, семья, книга, охота, рыбалка, путешествие
 
-**→ Category:** idea → thoughts/ideas/ или task если с дедлайном
+**→ Category:** task (p3-p4) или reflection
 
 ---
 
@@ -61,35 +47,35 @@ Based on user's work context (see [ABOUT.md](ABOUT.md)):
 ```
 Entry text contains...
 │
-├─ Client brand or deadline? ────────────────────> TASK (p1-p2)
-│  ([Your Clients], клиент, дедлайн, презентация)
+├─ Стартап + дедлайн/клиент? ────────────────────> TASK (p1-p2)
+│  (разметка, CVAT, клиент, пилот, MVP, дедлайн)
 │
-├─ Operational/urgent? ──────────────────────────> TASK (p2-p3)
-│  (нужно сделать, не забыть, позвонить, встреча)
+├─ Бизнес-модель/CustDev? ──────────────────────> TASK (p1-p2) или IDEA
+│  (монетизация, интервью, pricing, unit-экономика)
 │
-├─ AI/tech learning? ────────────────────────────> LEARNING
-│  (узнал, модель, агент, интеграция)
+├─ Техническая задача/эксперимент? ──────────────> PROJECT
+│  (прототип, агент, интеграция, тест, API)
 │
-├─ Product/SaaS idea? ───────────────────────────> IDEA или PROJECT
-│  (продукт, MVP, гипотеза, SaaS)
+├─ Изучаю что-то новое? ────────────────────────> LEARNING
+│  (узнал, модель, фреймворк, туториал)
 │
-├─ Strategic thinking? ──────────────────────────> PROJECT
-│  (стратегия, план, R&D, долгосрочно)
+├─ Стратегическое мышление? ─────────────────────> PROJECT
+│  (стратегия, план, масштабирование, долгосрочно)
 │
-├─ Personal insight? ────────────────────────────> REFLECTION
-│  (понял, осознал, философия)
+├─ Личный инсайт? ──────────────────────────────> REFLECTION
+│  (понял, осознал, вывод)
 │
-└─ Content idea? ────────────────────────────────> IDEA
-   (пост, тезис, контент)
+└─ Идея нового подхода/фичи? ───────────────────> IDEA
+   (а что если, можно попробовать, гипотеза)
 ```
 
 ## Apply Decision Filters
 
 Перед сохранением спроси:
-- Это масштабируется?
-- Это можно автоматизировать?
-- Это усиливает экспертизу или бренд?
-- Это приближает к продукту или SaaS?
+- Это приближает к запуску MVP и первым клиентам?
+- Это можно использовать в стартапе?
+- Какими средствами и ресурсами решать, и какой результат?
+- Это открывает новые возможности для бизнеса?
 
 Если да на 2+ вопроса → повысить приоритет.
 
@@ -101,8 +87,8 @@ For `[photo]` entries:
 
 1. Analyze image content via vision
 2. Determine domain:
-   - Screenshot клиентского материала → Client Work
-   - Схема/диаграмма → AI & Tech или Product
+   - Скриншот CVAT/кода → Стартап — Продукт или AI & Tech — R&D
+   - Схема/диаграмма → AI & Tech или Стартап — Бизнес
    - Текст/статья → Learning
 3. Add description to daily file
 
@@ -112,9 +98,9 @@ For `[photo]` entries:
 
 | Category | Destination | Priority |
 |----------|-------------|----------|
-| task (client) | Todoist | p1-p2 |
-| task (ops) | Todoist | p2-p3 |
-| task (content) | Todoist | p3-p4 |
+| task (стартап — продукт) | Singularity App | p1-p2 |
+| task (стартап — бизнес) | Singularity App | p1-p2 |
+| task (личное) | Singularity App | p3-p4 |
 | idea | thoughts/ideas/ | — |
 | reflection | thoughts/reflections/ | — |
 | project | thoughts/projects/ | — |
@@ -130,9 +116,10 @@ thoughts/{category}/{YYYY-MM-DD}-short-title.md
 
 Examples:
 ```
-thoughts/ideas/2024-12-16-saas-pricing-model.md
-thoughts/projects/2024-12-16-ai-agents-pipeline.md
-thoughts/learnings/2024-12-16-claude-mcp-setup.md
+thoughts/ideas/2026-02-24-pricing-per-task-model.md
+thoughts/projects/2026-02-24-openclaw-cvat-integration.md
+thoughts/learnings/2026-02-24-cvat-api-endpoints.md
+thoughts/reflections/2026-02-24-custdev-insights.md
 ```
 
 ---
@@ -145,7 +132,7 @@ Use preferred format:
 ---
 date: {YYYY-MM-DD}
 type: {category}
-domain: {Client Work|AI & Tech|Product|Agency Ops|Content}
+domain: {Стартап — Продукт|Стартап — Бизнес|AI & Tech — Обучение|AI & Tech — R&D|Личное}
 tags: [tag1, tag2]
 ---
 
@@ -156,8 +143,7 @@ tags: [tag1, tag2]
 [Ключевая идея]
 
 ## Implication
-<!-- Замените [Your Company] на название вашей компании -->
-[Что это значит для [Your Company]/продукта/стратегии]
+[Что это значит для стартапа/продукта/стратегии]
 
 ## Next Action
 [Конкретный шаг — не абстрактный]
@@ -169,10 +155,11 @@ tags: [tag1, tag2]
 
 При создании мыслей НЕ делать:
 - Абстрактные рассуждения без Next Action
-- Академическая теория без применения к вашему проекту/продукту
+- Академическая теория без применения к стартапу
 - Повторы без синтеза (кластеризуй похожие!)
 - Хаотичные списки без приоритетов
 - Задачи типа "подумать о..." (конкретизируй!)
+- Задачи, не связанные с текущими приоритетами (стартап, обучение, здоровье)
 
 ---
 
@@ -185,9 +172,12 @@ MOC/MOC-{category}s.md
 
 Group by domain when relevant:
 ```markdown
-## AI & Tech
-- [[2024-12-16-claude-mcp-setup]] - MCP integration
+## Стартап — Продукт
+- [[2026-02-24-openclaw-cvat-integration]] - Интеграция OpenClaw + CVAT
 
-## Product
-- [[2024-12-16-saas-pricing-model]] - Pricing research
+## Стартап — Бизнес
+- [[2026-02-24-pricing-per-task-model]] - Модель монетизации за задачу
+
+## AI & Tech — Обучение
+- [[2026-02-24-cvat-api-endpoints]] - Изучение CVAT API
 ```

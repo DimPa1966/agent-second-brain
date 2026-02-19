@@ -1,3 +1,4 @@
+```markdown
 # Critical Processing Rules
 
 See [ABOUT.md](ABOUT.md) for user context and preferences.
@@ -39,6 +40,8 @@ Check AFTER each `## HH:MM` header for the marker.
 2. Count tasks per day
 3. If target day has 3+ tasks → shift to next day with less load
 
+**Note:** Учитывать тренировки Пн/Ср/Пт 11:00–14:00 — в эти дни доступного времени на задачи меньше.
+
 ## Rule 5: Mark After Processing
 
 After EACH processed entry, add marker:
@@ -49,16 +52,16 @@ After EACH processed entry, add marker:
 
 For tasks with details:
 ```markdown
-<!-- ✓ processed: task → Todoist: {name} {priority} {date} -->
+<!-- ✓ processed: task → Singularity App: {name} {priority} {date} -->
 ```
 
 ## Rule 6: Apply Decision Filters
 
 Before saving any thought or task, check:
-- Это масштабируется?
-- Это можно автоматизировать?
-- Это усиливает экспертизу/бренд?
-- Это приближает к продукту/SaaS?
+- Это приближает к запуску MVP и первым клиентам?
+- Это можно использовать в стартапе?
+- Какими средствами и ресурсами решать, и какой результат?
+- Это открывает новые возможности для бизнеса?
 
 If 2+ yes → boost priority.
 
@@ -68,7 +71,9 @@ NEVER create:
 - Абстрактные задачи без Next Action ("Подумать о...")
 - Хаотичные списки без приоритетов
 - Повторы без синтеза
-- Академическая теория без применения
+- Академическая теория без применения к стартапу
+- Задачи, не связанные с текущими приоритетами (стартап, обучение, здоровье)
+- Планирование тренировок и фокусной работы в один таймслот
 
 See [ABOUT.md](ABOUT.md) → Anti-Patterns section.
 
@@ -77,9 +82,10 @@ See [ABOUT.md](ABOUT.md) → Anti-Patterns section.
 ## Checklist Before Completion
 
 - [ ] All new entries processed
-- [ ] No duplicates in Todoist
+- [ ] No duplicates in Singularity App
 - [ ] All tasks have dates and concrete actions
 - [ ] Decision filters applied
 - [ ] Anti-patterns avoided
 - [ ] MOC files updated
 - [ ] Report generated
+```

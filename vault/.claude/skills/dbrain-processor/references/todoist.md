@@ -1,28 +1,29 @@
-# Todoist Integration
+```markdown
+# Singularity App Integration
 
-<!--
-╔══════════════════════════════════════════════════════════════════╗
-║  КАК НАСТРОИТЬ ЭТОТ ФАЙЛ                                         ║
-╠══════════════════════════════════════════════════════════════════╣
-║  1. Замените [Your Clients] на имена ваших клиентов              ║
-║  2. Замените [Your Company] на название вашей компании           ║
-║  3. Замените [@your_channel] на ваш Telegram-канал               ║
-║  4. Измените примеры задач на релевантные для вас                ║
-║  5. Удалите этот комментарий после настройки                     ║
-╚══════════════════════════════════════════════════════════════════╝
--->
+## API Overview
 
-## Available MCP Tools
+**Base URL:** `https://api.singularity-app.com/v2/`
+**Auth:** Bearer token (создаётся в личном кабинете → «Доступ к API»)
+**Документация:** [Swagger](https://api.singularity-app.com/v2/api)
+**MCP:** Поддерживается — конфигурация скачивается из личного кабинета → «MCP-конфигурация»
 
-### Reading Tasks
-- `get-overview` — all projects with hierarchy
-- `find-tasks` — search by text, project, section
-- `find-tasks-by-date` — tasks by date range
+### Доступные операции (CRUD)
 
-### Writing Tasks
-- `add-tasks` — create new tasks
-- `complete-tasks` — mark as done
-- `update-tasks` — modify existing
+| Сущность | Endpoints |
+|----------|-----------|
+| Задачи | GET/POST/PATCH/DELETE `/v2/task` |
+| Проекты | GET/POST/PATCH/DELETE `/v2/project` |
+| Привычки | GET/POST/PATCH/DELETE `/v2/habit` |
+| Теги | GET/POST/PATCH/DELETE `/v2/tag` |
+| Чек-листы | GET/POST/PATCH/DELETE `/v2/checklist-item` |
+| Канбан | POST `/v2/kanban-task-status`, `/v2/kanban-status` |
+| Секции | GET/POST/PATCH/DELETE `/v2/task-group` |
+| Отметка привычки | POST `/v2/habit-progress` |
+
+**Ограничения API:**
+- Повторяющиеся задачи через API создать нельзя
+- Совместные проекты не возвращаются в GET `/v2/project`
 
 ---
 
@@ -31,118 +32,131 @@
 ### 1. Check Workload (REQUIRED)
 
 ```
-find-tasks-by-date:
-  startDate: "today"
-  daysCount: 7
-  limit: 50
+GET /v2/task
+  ?startDateFrom={today}
+  &startDateTo={today+7days}
+  &includeRemoved=false
+  &includeArchived=false
 ```
 
 Build workload map:
 ```
-Mon: 2 tasks
-Tue: 4 tasks  ← overloaded
-Wed: 1 task
+Mon: 2 tasks (тренировка 11-14)
+Tue: 3 tasks  ← at limit
+Wed: 1 task (тренировка 11-14)
 Thu: 3 tasks  ← at limit
-Fri: 2 tasks
+Fri: 2 tasks (тренировка 11-14)
 Sat: 0 tasks
 Sun: 0 tasks
 ```
 
+**Note:** Пн/Ср/Пт — тренировки 11:00–14:00, доступного времени меньше.
+
 ### 2. Check Duplicates (REQUIRED)
 
 ```
-find-tasks:
-  searchText: "key words from new task"
+GET /v2/task
+  — просмотреть список задач по ключевым словам
 ```
 
 If similar exists → mark as duplicate, don't create.
 
 ---
 
-## Priority by Domain
+## Priority Mapping
+
+Singularity App использует 3 уровня приоритета:
+
+| Singularity | Значение | Использование |
+|-------------|----------|---------------|
+| 0 | Высокий | Срочные задачи стартапа, дедлайны, блокеры |
+| 1 | Обычный | Важные задачи: CustDev, обучение, R&D |
+| 2 | Низкий | Стратегические, долгосрочные, опциональные |
+
+### Priority by Domain
 
 Based on user's work context (see [ABOUT.md](ABOUT.md)):
 
 | Domain | Default Priority | Override |
 |--------|-----------------|----------|
-| Client Work | p1-p2 | — |
-| Agency Ops (urgent) | p2 | — |
-| Agency Ops (regular) | p3 | — |
-| Content (with deadline) | p2-p3 | — |
-| Product/R&D | p4 | масштабируемость → p3 |
-| AI & Tech | p4 | автоматизация → p3 |
+| Стартап — Продукт (MVP, клиенты, пилоты) | 0 | — |
+| Стартап — Бизнес (CustDev, модель) | 0–1 | — |
+| AI & Tech — R&D (прототипы, эксперименты) | 1 | приближает к MVP → 0 |
+| AI & Tech — Обучение | 1–2 | нужно для текущей задачи → 1 |
+| Личное (здоровье, семья) | 2 | — |
 
 ### Priority Keywords
 
 | Keywords in text | Priority |
 |-----------------|----------|
-| срочно, критично, дедлайн клиента | p1 |
-| важно, приоритет, до конца недели | p2 |
-| нужно, надо, не забыть | p3 |
-| (strategic, R&D, long-term) | p4 |
+| срочно, критично, дедлайн, блокер | 0 (высокий) |
+| важно, приоритет, до конца недели, клиент | 0 (высокий) |
+| нужно, надо, не забыть, изучить | 1 (обычный) |
+| стратегия, долгосрочно, когда будет время | 2 (низкий) |
 
 ### Apply Decision Filters for Priority Boost
 
 If entry matches 2+ filters → boost priority by 1 level:
-- Это масштабируется?
-- Это можно автоматизировать?
-- Это усиливает экспертизу/бренд?
-- Это приближает к продукту/SaaS?
+- Это приближает к запуску MVP и первым клиентам?
+- Это можно использовать в стартапе?
+- Какими средствами и ресурсами решать, и какой результат?
+- Это открывает новые возможности для бизнеса?
 
 ---
 
 ## Date Mapping
 
-| Context | dueString |
-|---------|-----------|
-| **Client deadline** | exact date |
-| **Urgent ops** | today / tomorrow |
-| **This week** | friday |
-| **Next week** | next monday |
-| **Strategic/R&D** | in 7 days |
-| **Not specified** | in 3 days |
+Singularity API принимает даты в ISO формате: `YYYY-MM-DD`
 
-### Russian → dueString
+| Context | Дата (поле "start") |
+|---------|---------------------|
+| **Срочная задача стартапа** | сегодня |
+| **До конца недели** | ближайшая пятница |
+| **На следующей неделе** | следующий понедельник |
+| **Стратегическая/R&D** | +7 дней |
+| **Не указано** | +3 дня |
 
-| Russian | dueString |
-|---------|-----------|
-| сегодня | today |
-| завтра | tomorrow |
-| послезавтра | in 2 days |
-| в понедельник | monday |
-| в пятницу | friday |
-| на этой неделе | friday |
-| на следующей неделе | next monday |
-| через неделю | in 7 days |
-| 15 января | January 15 |
+### Russian → ISO Date
+
+| Russian | Дата |
+|---------|------|
+| сегодня | {today} |
+| завтра | {today+1} |
+| послезавтра | {today+2} |
+| в понедельник | {next monday} |
+| в пятницу | {next friday} |
+| на этой неделе | {this friday} |
+| на следующей неделе | {next monday} |
+| через неделю | {today+7} |
+| 15 января | 2026-01-15 |
 
 ---
 
 ## Task Creation
 
-```
-add-tasks:
-  tasks:
-    - content: "Task title"
-      dueString: "friday"  # MANDATORY
-      priority: "p4"       # based on domain
-      projectId: "..."     # if known
+```json
+POST /v2/task
+{
+  "title": "Task title",
+  "start": "2026-02-24",
+  "priority": 1,
+  "note": "→ Weekly focus → Goal: MVP + первые клиенты"
+}
 ```
 
 ### Task Title Style
 
 User prefers: прямота, ясность, конкретика
 
-<!-- Замените примеры на релевантные для вас -->
 ✅ Good:
-- "Отправить презентацию клиенту"
-- "Созвон с командой по проекту"
-- "Написать пост про [тема]"
+- "Изучить CVAT API: эндпоинты для автоматизации разметки"
+- "Провести CustDev-интервью с ML-командой"
+- "Создать тестового агента в OpenClaw"
 
 ❌ Bad:
-- "Подумать о презентации"
-- "Что-то с клиентом"
-- "Разобраться с AI"
+- "Подумать о CVAT"
+- "Что-то с разметкой"
+- "Разобраться с агентами"
 
 ### Workload Balancing
 
@@ -150,24 +164,42 @@ If target day has 3+ tasks:
 1. Find next day with < 3 tasks
 2. Use that day instead
 3. Mention in report: "сдвинуто на {day} (перегрузка)"
+4. Учитывать тренировки Пн/Ср/Пт — в эти дни эффективная ёмкость ниже
 
 ---
 
 ## Project Detection
 
-<!--
-Настройте под свои проекты в Todoist.
-Замените примеры клиентов и название канала.
--->
-
 | Keywords | Project |
 |----------|---------|
-| [Your Client Names], клиент, бренд | Client Work |
-| [Your Company], команда, найм, процессы | Company Ops |
-| продукт, SaaS, MVP | Product |
-| пост, [@your_channel], контент | Content |
+| разметка, CVAT, агент, MVP, пилот, клиент | Стартап |
+| OpenClaw, Claude Code, ML, курс, туториал | Обучение |
+| тренировка, чекап, книга, семья | Личное |
 
-If unclear → use Inbox (no projectId).
+If unclear → без проекта (Inbox).
+
+---
+
+## Habit Tracking
+
+Привычки Дмитрия для трекинга через API:
+
+| Привычка | Расписание |
+|----------|-----------|
+| Тренировка | Пн, Ср, Пт |
+| Чтение | 2+ часа в неделю |
+
+Отметка привычки:
+```json
+POST /v2/habit-progress
+{
+  "habit": "{habit_id}",
+  "date": "2026-02-24",
+  "progress": 2
+}
+```
+
+`progress`: 0 = без изменений, 1 = не выполнена (сохраняет серию), 2 = выполнена
 
 ---
 
@@ -180,6 +212,7 @@ Based on user preferences:
 - ❌ Абстрактные задачи без Next Action
 - ❌ Дубликаты существующих задач
 - ❌ Задачи без дат
+- ❌ Задачи, не связанные с текущими приоритетами
 
 ---
 
@@ -187,14 +220,15 @@ Based on user preferences:
 
 CRITICAL: Никогда не предлагай "добавить вручную".
 
-If `add-tasks` fails:
+If API call fails:
 1. Include EXACT error message in report
 2. Continue with next entry
 3. Don't mark as processed
 4. User will see error and can debug
 
 WRONG output:
-  "Не удалось добавить (MCP недоступен). Добавь вручную: Task title"
+  "Не удалось добавить (API недоступен). Добавь вручную: Task title"
 
 CORRECT output:
-  "Ошибка создания задачи: [exact error from MCP tool]"
+  "Ошибка создания задачи: [exact error from API]"
+```
