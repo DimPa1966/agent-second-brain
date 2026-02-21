@@ -6,63 +6,41 @@ Curated knowledge that persists across sessions. Layer 2 of Clawdbot memory arch
 
 | Field | Value |
 |-------|-------|
-| Name | [Your name] |
-| Timezone | [Your timezone, e.g., UTC+5] |
-| Location | [City/Country] |
-| Primary language | [e.g., Russian/English] |
+| Name | Дмитрий |
+| Timezone | UTC+5 |
+| Location | Екатеринбург/Россия |
+| Primary language | Russian |
 
 ## Preferences
 
 ### Tech Stack
-- Languages: [e.g., Python, TypeScript]
-- Frameworks: [e.g., React, FastAPI]
-- Tools: [e.g., Cursor, Claude Code]
+- Languages: Python, TypeScript
+- Frameworks: React, FastAPI
+- Tools: Cursor, Claude Code, Chat GPT
 
 ### Communication Style
-- Preferred response language: [Russian/English/Mixed]
-- Detail level: [Brief/Detailed]
-- Code comments: [Minimal/Verbose]
+- Preferred response language: Russian
+- Detail level: Detailed
+- Code comments: Verbose
 
 ### Habits
-- Morning routine: [if relevant]
-- Work hours: [e.g., 10:00-19:00]
-- Planning cadence: [weekly/daily]
+- Morning routine: if relevant
+- Work hours: 10:00-19:00
+- Planning cadence: weekly
 
 ## Key Decisions
 
 | Date | Decision | Context |
 |------|----------|---------|
-| YYYY-MM-DD | Example: Use uv instead of pip | Better dependency management |
 
 ## Active Context
 
 ### ONE Big Thing (This Week)
 <!-- From goals/3-weekly.md -->
-- [ ] [Current week's main focus]
+- свой стартап
 
 ### Hot Projects
-1. [Project name] — [status/next action]
-
-### Pipeline/Leads
-<!-- If applicable -->
-- [Lead name] — [status]
-
-## Key People
-
-| Name | Role | Contact | Notes |
-|------|------|---------|-------|
-| [Name] | [Role] | [Telegram/Email] | [Context] |
-
-## Learnings
-
-### What Worked
-- [Pattern/approach that was successful]
-
-### What Didn't Work
-- [Anti-pattern to avoid]
-
-### Rules to Remember
-- [Important rule discovered during work]
+1. OpenClaw, свой стартап
 
 ## Quick Links
 
@@ -72,4 +50,4 @@ Curated knowledge that persists across sessions. Layer 2 of Clawdbot memory arch
 
 ---
 
-*Last updated: YYYY-MM-DD*
+*Last updated: 2026-02-21*
